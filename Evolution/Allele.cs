@@ -29,7 +29,7 @@ class Allele{}
 
 class ColourAllele : Allele
 {
-  ColourAllele(RGBColours _colour, Byte _colourPair)
+  public ColourAllele(RGBColours _colour, Byte _colourPair)
   {
     colour = _colour;
     colourPair = _colourPair;
@@ -42,9 +42,9 @@ class ColourAllele : Allele
 
 }
 
-class BodyPartAllele : Allele
+class BodyPartAllele<TEnum> : Allele where TEnum : System.Enum 
 {
-  BodyPartAllele(System.Enum _bodyPartType, SizeValues _bodyPartSize)
+  public BodyPartAllele(TEnum _bodyPartType, SizeValues _bodyPartSize)
   {
     bodyPartType = _bodyPartType;
     bodyPartSize = _bodyPartSize;
@@ -54,7 +54,7 @@ class BodyPartAllele : Allele
   {
     return bodyPartType.GetType();
   }
-  public System.Enum bodyPartType
+  public TEnum bodyPartType
   {get;}
   public SizeValues bodyPartSize
   {get;}
