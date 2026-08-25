@@ -1,11 +1,12 @@
 class AllelePair
 {
-    private Allele firstAllele;
-    private Allele secondAllele;
+    private IAllele firstAllele;
+    private IAllele secondAllele;
 
-    public AllelePair(Allele _firstAllele, Allele _secondAllele)
+    private Type pairType;
+
+    public AllelePair(IAllele _firstAllele, IAllele _secondAllele)
     {
         
-
     }
 }
