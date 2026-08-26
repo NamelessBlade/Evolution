@@ -1,9 +1,8 @@
 namespace Evolution;
 class AllelePair
 {
-    private IAllele firstAllele;
-    private IAllele secondAllele;
-
+    public IAllele firstAllele {  get; }
+    private readonly IAllele secondAllele;
 
     public AllelePair(IAllele _firstAllele, IAllele _secondAllele)
     {

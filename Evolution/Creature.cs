@@ -22,7 +22,15 @@ class Creature
         List<IAllele> chosenChildGeneome = [];
         foreach (AllelePair gene in Geneome)
         {
-            chosenChildGeneome.Append(gene.GetRandomAlleleFromPair());
+            switch (Random.Shared.Next(0, 101)){
+                case 1:
+                    chosenChildGeneome.Append(gene.firstAllele.Mutate());
+                    break;
+                default:
+                    chosenChildGeneome.Append(gene.GetRandomAlleleFromPair());
+                    break;
+            }
+            
         }
             
         return chosenChildGeneome;

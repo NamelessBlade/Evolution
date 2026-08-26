@@ -22,29 +22,37 @@ enum EyeShape : int
     ThreeEyes = 2
 }
 
-enum SizeValues
-{
-    Small,
-    Medium,
-    Large
-}
-
     
 interface IAllele
 {
     AlleleType AlleleType { get; }
     bool IsDominant(IAllele comparedAllele, Dictionary<AlleleType, int[]> dominanceDictionary);
+    IAllele Mutate();
 }
 
 class RedAllele(Byte _colourPair) : IAllele
 {
-    public bool IsDominant(RedAllele comparedAllele, Dictionary<AlleleType, int[]> dominanceDictionary)
+    public bool IsDominant(IAllele comparedAllele, Dictionary<AlleleType, int[]> dominanceDictionary)
     {
-        Byte dominantValue = (byte)dominanceDictionary[AlleleType][0];
-        if (Math.Abs(colourPair - dominantValue) > Math.Abs(comparedAllele.colourPair - dominantValue))
-            return false;
+
+        if (comparedAllele is RedAllele redComparedAllele)
+        {
+
+            Byte dominantValue = (byte)dominanceDictionary[AlleleType][0];
+            if (Math.Abs(colourPair - dominantValue) > Math.Abs(redComparedAllele.colourPair - dominantValue))
+                return false;
+            else
+                return true;
+        }
         else
-            return true;
+        {
+            throw new InvalidOperationException();
+        }
+    }
+
+    public IAllele Mutate()
+    {
+        return new RedAllele((Byte)Random.Shared.Next(0,256));
     }
 
     public AlleleType AlleleType => AlleleType.Red;
@@ -54,13 +62,25 @@ class RedAllele(Byte _colourPair) : IAllele
 
 class BlueAllele(Byte _colourPair) : IAllele
 {
-    public bool IsDominant(BlueAllele comparedAllele, Dictionary<AlleleType, int[]> dominanceDictionary)
+    public bool IsDominant(IAllele comparedAllele, Dictionary<AlleleType, int[]> dominanceDictionary)
     {
-        Byte dominantValue = (byte)dominanceDictionary[AlleleType][0];
-        if (Math.Abs(colourPair - dominantValue) > Math.Abs(comparedAllele.colourPair - dominantValue))
-            return false;
+        if (comparedAllele is BlueAllele blueComparedAllele)
+        {
+            Byte dominantValue = (byte)dominanceDictionary[AlleleType][0];
+            if (Math.Abs(colourPair - dominantValue) > Math.Abs(blueComparedAllele.colourPair - dominantValue))
+                return false;
+            else
+                return true;
+        }
         else
-            return true;
+        {
+            throw new InvalidOperationException();
+        }
+    }
+
+    public IAllele Mutate()
+    {
+        return new BlueAllele((Byte)Random.Shared.Next(0, 256));
     }
 
     public AlleleType AlleleType => AlleleType.Blue;
@@ -70,48 +90,84 @@ class BlueAllele(Byte _colourPair) : IAllele
 
 class GreenAllele(Byte _colourPair) : IAllele
 {
-    public bool IsDominant(GreenAllele comparedAllele, Dictionary<AlleleType, int[]> dominanceDictionary)
+    public bool IsDominant(IAllele comparedAllele, Dictionary<AlleleType, int[]> dominanceDictionary)
     {
-        Byte dominantValue = (byte)dominanceDictionary[AlleleType][0];
-        if (Math.Abs(colourPair - dominantValue) > Math.Abs(comparedAllele.colourPair - dominantValue))
-            return false;
+        if (comparedAllele is GreenAllele greenComparedAllele)
+        {
+            Byte dominantValue = (byte)dominanceDictionary[AlleleType][0];
+            if (Math.Abs(colourPair - dominantValue) > Math.Abs(greenComparedAllele.colourPair - dominantValue))
+                return false;
+            else
+                return true;
+        }
         else
-            return true;
+        {
+            throw new InvalidOperationException();
+        }
+    }
+
+    public IAllele Mutate()
+    {
+        return new GreenAllele((Byte)Random.Shared.Next(0, 256));
     }
     public AlleleType AlleleType => AlleleType.Green;
     public Byte colourPair { get; } = _colourPair;
 
 }
 
-class BodyAllele(BodyShapes _bodyType, SizeValues _bodySize) : IAllele
+class BodyAllele(BodyShapes _bodyType) : IAllele
 {
-    public bool IsDominant(BodyAllele comparedAllele, Dictionary<AlleleType, int[]> dominanceDictionary)
+    public bool IsDominant(IAllele comparedAllele, Dictionary<AlleleType, int[]> dominanceDictionary)
     {
-        int[] dominanceOrder = dominanceDictionary[AlleleType];
-        int ownPositionInDominance = dominanceOrder.IndexOf((int)bodyType);
-        int comparedPositionInDominance = dominanceOrder.IndexOf((int)comparedAllele.bodyType);
+        if (comparedAllele is BodyAllele bodyComparedAllele)
+        {
+            int[] dominanceOrder = dominanceDictionary[AlleleType];
+            int ownPositionInDominance = dominanceOrder.IndexOf((int)bodyType);
+            int comparedPositionInDominance = dominanceOrder.IndexOf((int)bodyComparedAllele.bodyType);
 
-        if (ownPositionInDominance > comparedPositionInDominance)
-            return false;
+            if (ownPositionInDominance > comparedPositionInDominance)
+                return false;
+            else
+                return true;
+        }
         else
-            return true;
+        {
+            throw new InvalidOperationException();
+        }
+    }
+
+    public IAllele Mutate()
+    {
+        return new BodyAllele((BodyShapes)Random.Shared.Next(0, 2));
     }
     public AlleleType AlleleType => AlleleType.Body;
     public BodyShapes bodyType { get; } = _bodyType;
 }
 
-class EyeAllele(EyeShape _eyeType, SizeValues _eyeSize) : IAllele
+class EyeAllele(EyeShape _eyeType) : IAllele
 {
-    public bool IsDominant(EyeAllele comparedAllele, Dictionary<AlleleType, int[]> dominanceDictionary)
+    public bool IsDominant(IAllele comparedAllele, Dictionary<AlleleType, int[]> dominanceDictionary)
     {
-        int[] dominanceOrder = dominanceDictionary[AlleleType];
-        int ownPositionInDominance = dominanceOrder.IndexOf((int)eyeType);
-        int comparedPositionInDominance = dominanceOrder.IndexOf((int)comparedAllele.eyeType);
+        if (comparedAllele is EyeAllele eyeComparedAllele)
+        {
+            int[] dominanceOrder = dominanceDictionary[AlleleType];
+            int ownPositionInDominance = dominanceOrder.IndexOf((int)eyeType);
+            int comparedPositionInDominance = dominanceOrder.IndexOf((int)eyeComparedAllele.eyeType);
 
-        if (ownPositionInDominance > comparedPositionInDominance)
-            return false;
+            if (ownPositionInDominance > comparedPositionInDominance)
+                return false;
+            else
+                return true;
+        }
         else
-            return true;
+        {
+            throw new InvalidOperationException();
+        }
+
+    }
+    public IAllele Mutate()
+    {
+        return new EyeAllele((EyeShape)Random.Shared.Next(0, 3));
     }
     public AlleleType AlleleType => AlleleType.Eye;
     public EyeShape eyeType { get; } = _eyeType;

@@ -1,4 +1,9 @@
-﻿static void Main(string[] args)
+﻿namespace Evolution;
+
+public class Program
 {
-    Console.WriteLine("hi");
+    public static void Main(string[] args)
+    {
+        Console.WriteLine();
+    }
 }
