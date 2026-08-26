@@ -1,20 +1,31 @@
+namespace Evolution;
+
 class Creature
 {
-    public IAllele[] alleleSet { get; set; }
+    public List<AllelePair> Geneome { get; } = [];
 
-    public Creature()
+    public Creature(IAllele[] geneome1, IAllele[] geneome2)
     {
-
+        foreach (IAllele Allele in geneome1)
+        {
+            IAllele matchingAllele = geneome2.FirstOrDefault(n => n.AlleleType == Allele.AlleleType) ?? throw new InvalidOperationException();
+            
+            Geneome.Append(new AllelePair(Allele, matchingAllele));
+        }
+        
     }
 
-    public void GenerateCreaturePhenotype()
-    {
+    public List<IAllele> GenerateCreaturePhenotype() => [.. Geneome.Select(gene => gene.GetDominantAllele())];
 
-    }
-
-    public IAllele[] GenerateAlleleSetForBreeding()
+    public List<IAllele> GenerateGeneomeForBreeding()
     {
-        return [];
+        List<IAllele> chosenChildGeneome = [];
+        foreach (AllelePair gene in Geneome)
+        {
+            chosenChildGeneome.Append(gene.GetRandomAlleleFromPair());
+        }
+            
+        return chosenChildGeneome;
     }
 
 }
