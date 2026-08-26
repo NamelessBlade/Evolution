@@ -2,80 +2,95 @@ using System.Drawing;
 
 enum AlleleType
 {
-  Body,
-  Eye,
-  Colour
-}
-enum BodyShapes
-{
-  TwoLegs,
-  FourLegs
+    Body,
+    Eye,
+    Colour
 }
 
-enum RGBColours
+enum BodyShapes
 {
-  Red,
-  Green,
-  Blue
+    TwoLegs,
+    FourLegs
 }
 
 enum EyeShape
 {
-  OneEye,
-  TwoEyes,
-  ThreeEyes
+    OneEye,
+    TwoEyes,
+    ThreeEyes
 }
 
 enum SizeValues
 {
-  Small,
-  Medium,
-  Large
+    Small,
+    Medium,
+    Large
 }
 
-
+    
 interface IAllele
 {
-  AlleleType AlleleType { get; }
+    AlleleType AlleleType { get; }
 }
 
-class ColourAllele : IAllele
+class RedAllele : IAllele
 {
-  public ColourAllele(RGBColours _colour, Byte _colourPair)
-  {
-    colour = _colour;
-    colourPair = _colourPair;
-  }
+    public RedAllele(Byte _colourPair)
+    {
+        colourPair = _colourPair;
+    }
 
-  public AlleleType AlleleType => AlleleType.Colour;
+    public AlleleType AlleleType => AlleleType.Colour;
+    public Byte colourPair { get; }
 
-  public RGBColours colour { get; }
-  private Byte colourPair { get; }
+}
+
+class BlueAllele : IAllele
+{
+    public BlueAllele(Byte _colourPair)
+    {
+        colourPair = _colourPair;
+    }
+
+    public AlleleType AlleleType => AlleleType.Colour;
+    public Byte colourPair { get; }
+
+}
+
+class GreenAllele : IAllele
+{
+    public GreenAllele(Byte _colourPair)
+    {
+        colourPair = _colourPair;
+    }
+
+    public AlleleType AlleleType => AlleleType.Colour;
+    public Byte colourPair { get; }
 
 }
 
 class BodyAllele : IAllele
 {
-  public BodyAllele(BodyShapes _bodyType, SizeValues _bodySize)
-  {
-    bodyType = _bodyType;
-    bodySize = _bodySize;
-  }
+    public BodyAllele(BodyShapes _bodyType, SizeValues _bodySize)
+    {
+        bodyType = _bodyType;
+        bodySize = _bodySize;
+    }
 
-  public AlleleType AlleleType => AlleleType.Body;
-  public BodyShapes bodyType { get; }
-  public SizeValues bodySize { get; }
+    public AlleleType AlleleType => AlleleType.Body;
+    public BodyShapes bodyType { get; }
+    public SizeValues bodySize { get; }
 }
 
 class EyeAllele : IAllele
 {
-  public EyeAllele(EyeShape _eyeType, SizeValues _eyeSize)
-  {
-    eyeType = _eyeType;
-    eyeSize = _eyeSize;
-  }
+    public EyeAllele(EyeShape _eyeType, SizeValues _eyeSize)
+    {
+        eyeType = _eyeType;
+        eyeSize = _eyeSize;
+    }
 
-  public AlleleType AlleleType => AlleleType.Body;
-  public EyeShape eyeType {get;}
-  public SizeValues eyeSize {get;}
+    public AlleleType AlleleType => AlleleType.Body;
+    public EyeShape eyeType {get;}
+    public SizeValues eyeSize {get;}
 }
