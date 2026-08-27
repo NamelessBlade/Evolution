@@ -1,5 +1,3 @@
-using Evolution.Allele;
-
 namespace Evolution;
 
 class Creature
